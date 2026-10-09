@@ -135,7 +135,11 @@ a{color:var(--teal-deep)}
 .log-box{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 16px;display:grid;gap:6px}
 .log-title{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--teal-deep)}
 #log{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:14px}
-#log li{display:grid;grid-template-columns:48px 1fr;gap:8px;animation:logIn .35s ease-out}
+#log li{position:relative;display:grid;grid-template-columns:44px 12px 1fr;gap:8px;align-items:center;padding-block:4px;animation:logIn .35s ease-out}
+#log li i{width:9px;height:9px;border-radius:50%;background:var(--teal);justify-self:center;box-shadow:0 0 0 3px var(--teal-tint)}
+#log li:not(:last-child)::after{content:"";position:absolute;left:57px;top:22px;height:calc(100% - 8px);border-left:2px dotted var(--line)}
+#log li span{min-width:0;overflow-wrap:anywhere}
+.log-note{font-size:11px;color:var(--ink-soft);line-height:1.6}
 #log li time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--teal-deep)}
 #log li.empty{display:block;color:var(--ink-soft);animation:none}
 @keyframes logIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
@@ -427,6 +431,7 @@ footer .wrap{align-items:flex-start}
         <div class="log-box">
           <span class="log-title">保護者アプリに残る履歴（イメージ）</span>
           <ol id="log" aria-live="polite"><li class="empty">まだ記録はありません</li></ol>
+          <p class="log-note">※表示される学校名・店舗名・住所は、大村市内の実在の名称から無作為に選んだ表示例です。実際の見守りスポットの設置場所や記録内容を示すものではありません。</p>
         </div>
       </div>
       </div>
@@ -534,7 +539,7 @@ footer .wrap{align-items:flex-start}
           <h3>一口からのご協賛</h3>
           <div class="amt">50,000円<span>（税別）〜</span></div>
           <ul class="perks">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>見守りサービスのページにロゴを掲載</b><small>保護者が利用申込みで確認するページに、貴社ロゴとホームページへのリンクを掲出します。ロゴをいただき次第、順次掲載します。</small></div></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>見守りサービスのページにロゴを掲載</b><small>保護者が利用申込みで確認するページに、貴社ロゴとホームページへのリンクを掲出します。ロゴをいただいた後、各種状況を考慮して随時掲載します。</small></div></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>保護者向けメールで企業名をご紹介</b><small>協賛企業の一覧をメールで保護者に配信します。期間中1回、配信時期は弊社で決めさせていただきます。</small></div></li>
           </ul>
         </article>
@@ -569,7 +574,6 @@ footer .wrap{align-items:flex-start}
           <div class="slot">協賛企業</div>
           <div class="slot">協賛企業</div>
         </div>
-        <h3>大村の見守りを、最初に支える企業に。</h3>
         <div class="deadline"><span>第一次募集期間</span><strong>2026年12月31日（木）まで</strong></div>
         <p>ご協賛いただいた企業さまのロゴは、保護者が確認する見守りサービスのページに各種状況を考慮して随時掲載します。</p>
         <a class="btn" href="https://forms.gle/Dec6f284oiyp57E87" target="_blank" rel="noopener">第一次募集に申し込む
@@ -695,12 +699,17 @@ footer .wrap{align-items:flex-start}
 (function(){
   var svg=document.querySelector('.map svg'),kid=document.getElementById('kid'),log=document.getElementById('log');
   if(!svg||!kid||!log)return;
+  var ADDR=["大村市赤佐古町", "大村市荒瀬町", "大村市荒平町", "大村市池田新町", "大村市池田1丁目", "大村市池田2丁目", "大村市乾馬場町", "大村市今津町", "大村市今富町", "大村市今村町", "大村市岩松町", "大村市植松1丁目", "大村市植松2丁目", "大村市植松3丁目", "大村市大川田町", "大村市大里町", "大村市小川内町", "大村市沖田町", "大村市鬼橋町", "大村市小路口本町", "大村市小路口町", "大村市皆同町", "大村市陰平町", "大村市水主町1丁目", "大村市水主町2丁目", "大村市片町", "大村市上諏訪町", "大村市協和町", "大村市杭出津1丁目", "大村市杭出津2丁目", "大村市杭出津3丁目", "大村市草場町", "大村市玖島1丁目", "大村市玖島2丁目", "大村市玖島3丁目", "大村市久原1丁目", "大村市久原2丁目", "大村市黒木町", "大村市黒丸町", "大村市古賀島町", "大村市木場1丁目", "大村市木場2丁目", "大村市幸町", "大村市坂口町", "大村市桜馬場1丁目", "大村市桜馬場2丁目", "大村市三城町", "大村市重井田町", "大村市寿古町", "大村市須田ノ木町", "大村市諏訪1丁目", "大村市諏訪2丁目", "大村市諏訪3丁目", "大村市西部町", "大村市武部町", "大村市竹松本町", "大村市竹松町", "大村市田下町", "大村市徳泉川内町", "大村市富の原1丁目", "大村市富の原2丁目", "大村市中里町", "大村市中岳町", "大村市西乾馬場町", "大村市西大村本町", "大村市西三城町", "大村市西本町", "大村市野岳町", "大村市野田町", "大村市原口町", "大村市原町", "大村市東大村1丁目", "大村市東大村2丁目", "大村市東三城町", "大村市東野岳町", "大村市東本町", "大村市日泊町", "大村市平町", "大村市福重町", "大村市古町1丁目", "大村市古町2丁目", "大村市本町", "大村市雄ケ原町", "大村市松並1丁目", "大村市松並2丁目", "大村市松原本町", "大村市松原1丁目", "大村市松原2丁目", "大村市松原3丁目", "大村市松山町", "大村市箕島町", "大村市水田町", "大村市水計町", "大村市溝陸町", "大村市宮小路1丁目", "大村市宮小路2丁目", "大村市宮小路3丁目", "大村市宮代町", "大村市弥勒寺町", "大村市向木場町", "大村市武留路町", "大村市森園町", "大村市立福寺町"];
+  var STORES=["ローソン 大村玖島一丁目店", "セブン-イレブン 大村本町店", "セブン-イレブン 大村水主町1丁目店", "セブン-イレブン 大村須田ノ木町店", "ファミリーマート JR大村駅店", "ファミリーマート 大村久原店", "ファミリーマート 国立長崎医療センター前店", "ローソン 大村東三城町店", "セブン-イレブン 大村東三城町店", "ファミリーマート 大村杭出津一丁目店", "セブン-イレブン 大村久原2丁目店", "セブン-イレブン 大村協和町店", "セブン-イレブン 大村放虎原店", "ファミリーマート 大村松並二丁目店", "セブン-イレブン 大村松並1丁目店", "セブン-イレブン 大村陰平町店", "セブン-イレブン 大村池田1丁目店", "ローソン 大村古賀島町店", "ファミリーマート 大村長崎空港通り店", "ローソン 大村植松三丁目店", "セブン-イレブン 大村植松3丁目店", "セブン-イレブン 大村池田2丁目店", "セブン-イレブン 大村坂口町店", "デイリーヤマザキ 大村インター店", "ファミリーマート 大村小路口町店", "ファミリーマート 大村今津町店", "セブン-イレブン 大村竹松本町店", "ファミリーマート 大村大川田店", "セブン-イレブン 大村富の原2丁目店", "セブン-イレブン 大村鬼橋町店", "ローソン 大村富の原二丁目店", "ローソン 大村宮小路三丁目店", "セブン-イレブン 大村黒丸町店", "ファミリーマート 大村宮小路三丁目店", "ファミリーマート 大村松原本町店"];
+  var SCHOOLS=["三浦小学校", "鈴田小学校", "三城小学校", "大村小学校", "東大村小学校", "西大村小学校", "中央小学校", "竹松小学校", "萱瀬小学校", "黒木小学校", "福重小学校", "松原小学校", "放虎原小学校", "旭が丘小学校", "富の原小学校"];
+  var bags={};
+  function pick(k,arr){if(!bags[k]||!bags[k].length){bags[k]=arr.slice();for(var i=bags[k].length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=bags[k][i];bags[k][i]=bags[k][j];bags[k][j]=t;}}return bags[k].pop();}
   var pos={x:160,y:176},R=60,drag=null,clock=7*60+40;
   var targets=[
-    {id:'gate',name:'校門の見守りスポット',x:221,y:124},
-    {id:'shop',name:'お店の見守りスポット',x:389,y:140},
-    {id:'person',name:'見守り人（アプリ）とすれ違い',x:308,y:246},
-    {id:'taxi',name:'見守りタクシーとすれ違い',x:122,y:320}
+    {id:'gate',src:function(){return pick('s',SCHOOLS);},kind:'学校',x:221,y:124},
+    {id:'shop',src:function(){return pick('c',STORES);},kind:'お店',x:389,y:140},
+    {id:'person',src:function(){return pick('a',ADDR);},kind:'見守り人',x:308,y:246},
+    {id:'taxi',src:function(){return pick('a',ADDR);},kind:'タクシー',x:122,y:320}
   ];
   targets.forEach(function(t){t.inside=Math.hypot(t.x-pos.x,t.y-pos.y)<R;});
   function place(){kid.setAttribute('transform','translate('+pos.x+' '+pos.y+')');check();}
@@ -711,9 +720,9 @@ footer .wrap{align-items:flex-start}
     clock+=2+Math.floor(Math.random()*3);
     var hh=String(Math.floor(clock/60)%24).padStart(2,'0'),mm=String(clock%60).padStart(2,'0');
     var e=log.querySelector('.empty');if(e)e.remove();
-    var li=document.createElement('li');li.innerHTML='<time>'+hh+':'+mm+'</time><span>'+t.name+'</span>';
+    var li=document.createElement('li');var tm=document.createElement('time');tm.textContent=hh+':'+mm;var dot=document.createElement('i');var nm=document.createElement('span');nm.textContent=t.src();li.append(tm,dot,nm);
     log.insertBefore(li,log.firstChild);
-    while(log.children.length>4)log.removeChild(log.lastChild);
+    while(log.children.length>5)log.removeChild(log.lastChild);
   }
   function check(){targets.forEach(function(t){var inn=Math.hypot(t.x-pos.x,t.y-pos.y)<R;if(inn&&!t.inside)record(t);t.inside=inn;});}
   kid.addEventListener('pointerdown',function(e){var p=pt(e);drag={dx:pos.x-p.x,dy:pos.y-p.y};kid.setPointerCapture(e.pointerId);e.preventDefault();});
